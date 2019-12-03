@@ -1,4 +1,8 @@
 ^{:watch-dirs ["test" "src"]
   :css-dirs ["resources/public/css"]
   :auto-testing true}
-{:main fwm-example.core}
+{:main fwm-example.core
+ :optimizations :none
+ :output-to     "resources/public/cljs-out/main.js"
+ :output-dir    "resources/public/cljs-out/main.out"}
+

@@ -3,6 +3,8 @@
 
 (def out-dir "resources/public/cljs-out")
 
+;; Stolen from prod.clj in the full-stack-clj-example
+;; https://github.com/oakes/full-stack-clj-example
 (defn delete-children-recursively! [f]
       (when (.isDirectory f)
             (doseq [f2 (.listFiles f)]

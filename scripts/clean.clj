@@ -1,7 +1,12 @@
 (require
   '[clojure.java.io :as io])
 
-(def out-dir "resources/public/cljs-out")
+(import '[java.io File])
+
+;; A list of directory names that are to be deleted, including all child
+;; files and directories. The directory names are relative to the project
+;; directory.
+(def clean-targets ["target" "resources/public/cljs-out"])
 
 ;; Stolen from prod.clj in the full-stack-clj-example
 ;; https://github.com/oakes/full-stack-clj-example
@@ -11,5 +16,10 @@
                    (delete-children-recursively! f2)))
       (when (.exists f) (io/delete-file f)))
 
-(delete-children-recursively! (io/file out-dir))
+(defn delete-clean-targets! [v]
+  (doseq [dir-name v]
+    (let [dir-file (io/file dir-name)]
+      (delete-children-recursively! dir-file))))
+
+(delete-clean-targets! clean-targets)
 (System/exit 0)

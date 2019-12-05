@@ -1,3 +1,12 @@
+;;;
+;;; This script will use leiningen to build an uberjar of the project. The
+;;; resulting artifact can be started using a "java -jar ..." command just
+;;; like a normal uberjar.
+;;;
+;;; This code is inspired by, and largely stolen from,
+;;; https://github.com/oakes/full-stack-clj-example
+;;;
+
 (require
   '[clojure.java.io :as io]
   '[clojure.string :as str]

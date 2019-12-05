@@ -1,5 +1,6 @@
 (ns fwm-example.main
-  (:require [fwm-example.server :as server]))
+  (:require [fwm-example.server :as server])
+  (:gen-class))
 
 (defn start []
   (println "start")
@@ -13,4 +14,5 @@
   (start))
 
 (defn -main []
-  (println "main"))
+  (println "main")
+  (start))

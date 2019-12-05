@@ -6,7 +6,12 @@
 ;; A list of directory names that are to be deleted, including all child
 ;; files and directories. The directory names are relative to the project
 ;; directory.
-(def clean-targets ["target" "resources/public/cljs-out"])
+(def clean-targets ["target"
+                    "resources/public/main.out"
+                    "resources/public/main.js"
+                    "resources/public/main-auto-testing.js"
+                    "resources/public/test-main.out"
+                    "resources/public/test-main.js"])
 
 ;; Stolen from prod.clj in the full-stack-clj-example
 ;; https://github.com/oakes/full-stack-clj-example

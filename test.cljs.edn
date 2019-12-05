@@ -8,5 +8,5 @@
   ;; :launch-js ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "--headless" "--disable-gpu" "--repl" :open-url]
   :watch-dirs ["src" "test"]}
 {:main       fwm-example.test-runner
- :output-to  "resources/public/cljs-out/test-main.js"
- :output-dir "resources/public/cljs-out/test-main.out"}
+ :output-to  "resources/public/test-main.js"
+ :output-dir "resources/public/test-main.out"}

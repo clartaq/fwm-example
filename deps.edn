@@ -11,4 +11,6 @@
            :min       {:main-opts ["-m" "figwheel.main" "-O" "advanced" "-bo" "dev"]}
            :test-cljs {:main-opts ["-m" "figwheel.main" "-co" "test.cljs.edn" "-m" "fwm-example.test-runner"]}
            :clean     {:main-opts ["scripts/clean.clj"]}
-           :dev       {:main-opts ["scripts/dev.clj"]}}}
+           :dev       {:main-opts ["scripts/dev.clj"]}
+           :prod      {:extra-deps {leiningen {:mvn/version "2.9.0"}}
+                       :main-opts  ["scripts/prod.clj"]}}}

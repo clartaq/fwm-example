@@ -29,21 +29,14 @@
   (println (str "Started server on http://localhost:" port)))
 
 (defn dev-main []
-  (.mkdirs (io/file "target" "public"))
-  (-> handler
-      (wrap-file "target/public")
-      run-server))
+  (run-server handler))
 
 (defn -main [& args]
   (run-server handler))
 
-
 (defn start-server []
   (println "start-server")
-  (.mkdirs (io/file "target" "public"))
-  (-> handler
-      (wrap-file "target/public")
-      run-server))
+  (run-server handler))
 
 (defn stop-server [])
 

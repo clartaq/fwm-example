@@ -5,11 +5,8 @@
 
 (println "This text is printed from src/fwm_example/core.cljs. Go ahead and edit it and see reloading in action.")
 
-(defn multiply [a b] (* a b))
-
-
 ;; define your app data so that it doesn't get over-written on reload
-(defonce app-state (atom {:text "Hello world!"}))
+(defonce app-state (atom {:text "Hello Crazy World!"}))
 
 (defn get-app-element []
   (gdom/getElement "app"))
@@ -17,7 +14,7 @@
 (defn hello-world []
   [:div
    [:h1 (:text @app-state)]
-   [:h3 "Edit this in src/fwm_example/core.cljs and watch it change for the better!"]])
+   [:h3 "Edit this in src/fwm_example/core.cljs and watch it change!"]])
 
 (defn mount [el]
   (reagent/render-component [hello-world] el))

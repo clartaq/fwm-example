@@ -46,6 +46,8 @@
                    (mapcat :extra-paths)
                    (into paths))]
     {:dependencies deps
+     ; You can change the name of the uberjar to something less tedious here.
+     ;:uberjar-name "fwm-example.jar"
      :source-paths []
      :resource-paths paths}))
 

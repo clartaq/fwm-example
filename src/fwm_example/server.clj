@@ -7,6 +7,9 @@
             [clojure.java.io :as io])
   (:gen-class))
 
+;; Just used to demonstrate testing.
+(defn multiply [a b] (* a b))
+
 (def port 3000)
 
 (defmulti handler :uri)

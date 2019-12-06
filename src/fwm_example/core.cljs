@@ -17,7 +17,7 @@
 (defn hello-world []
   [:div
    [:h1 (:text @app-state)]
-   [:h3 "Edit this in src/fwm_example/core.cljs and watch it change!"]])
+   [:h3 "Edit this in src/fwm_example/core.cljs and watch it change for the better!"]])
 
 (defn mount [el]
   (reagent/render-component [hello-world] el))

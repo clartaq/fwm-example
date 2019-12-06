@@ -8,3 +8,6 @@
 
 (deftest multiply-test-2
   (is (= (* 75 10) (multiply 10 75))))
+
+(deftest another-multiply-test
+  (is (= 9702 (multiply 99 98))))

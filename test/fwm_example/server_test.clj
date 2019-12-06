@@ -9,4 +9,4 @@
 
 (deftest another-multiply-test
   (testing "The multifply function to death."
-    (is (= 10000 (multiply 97 97)))))
+    (is (= 9409 (multiply 97 97)))))

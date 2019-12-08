@@ -2,17 +2,24 @@
   (:require [fwm-example.server :as server])
   (:gen-class))
 
-(defn start []
-  (println "start")
-  (server/start-server))
+(defn start-app!
+  "Initialize and start the major program components. REPL convenience function."
+  [& [port]]
+  (println "Starting fwm-example.")
+  (server/start-server! port))
 
-(defn stop []
-  (println "stop"))
+(defn stop-app!
+  "Shut down the application. REPL convenience function."
+  []
+  (println "Stopping fwm-example")
+  (server/stop-server!))
 
-(defn dev-main []
-  (println "dev-main")
-  (start))
+(defn dev-main [& [port]]
+  (println "Starting dev-main")
+  (start-app! port))
 
-(defn -main []
-  (println "main")
-  (start))
+(defn -main
+  "Program entry point."
+  [& port]
+  (println "Starting main")
+  (start-app! port))

@@ -1,42 +1,35 @@
 (ns fwm-example.server
-  (:require [ring.adapter.jetty :refer [run-jetty]]
-            [ring.middleware.file :refer [wrap-file]]
-            [ring.middleware.resource :refer [wrap-resource]]
-            [ring.middleware.content-type :refer [wrap-content-type]]
-            [ring.util.response :refer [not-found]]
-            [clojure.java.io :as io])
-  (:gen-class))
+  (:gen-class)
+  (:require [fwm-example.handler :refer [all-routes]]
+            [org.httpkit.server :as http-kit]))
 
-;; Just used to demonstrate testing.
+;;; Just used to demonstrate testing.
 (defn multiply [a b] (* a b))
 
-(def port 3000)
+(def default-port 3000)
 
-(defmulti handler :uri)
+(defonce ^{:private true} web-server_ (atom nil))
 
-(defmethod handler "/"
-  [request]
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body (-> "public/index.html" io/resource slurp)})
+(defn stop-server! []
+  (println "Stopping web server.")
+  (when-let [stop-fn @web-server_]
+    (println "stop-fn: " stop-fn)
+    (stop-fn)))
 
-(defmethod handler :default
-  [request]
-  (not-found "Page not found"))
+(defn start-server! [& [port]]
+  (stop-server!)
+  (println "Starting web server.")
+  (let [http-port (or port default-port)
+        wrapped-routes all-routes
+        [port-used stop-fn] (let [stop-fn (http-kit/run-server
+                                            wrapped-routes
+                                            {:port http-port})]
+                              [(:local-port (meta stop-fn))
+                               (fn [] (stop-fn :timeout 100))])
+        uri (format "http://localhost:%s/" port-used)]
 
-(defn run-server [handler-fn]
-  (run-jetty (wrap-resource handler-fn "public") {:port port :join? false})
-  (println (str "Started server on http://localhost:" port)))
+    (println "http-port: " http-port)
+    (println "Web server is running at: " uri)
+    (reset! web-server_ stop-fn)))
 
-(defn dev-main []
-  (run-server handler))
-
-(defn -main [& args]
-  (run-server handler))
-
-(defn start-server []
-  (println "start-server")
-  (run-server handler))
-
-(defn stop-server [])
 

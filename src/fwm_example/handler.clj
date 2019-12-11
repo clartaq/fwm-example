@@ -5,28 +5,47 @@
     [clojure.pprint :as pprint]
     [compojure.core :refer [defroutes GET]]
     [compojure.route :refer [not-found]]
+    [fwm-example.periodic-tasks :as periodic]
+    [fwm-example.date-time :as dt]
     [org.httpkit.server :refer [on-receive on-close send! with-channel]]
     [ring.middleware.resource :refer [wrap-resource]]
     [ring.middleware.reload :refer [wrap-reload]]))
 
 (def ws-client (atom nil))
+(def updates-sent (atom 0))
+
+(def starting-prefs {:body-margin    "2rem"
+                     :h4-line-height "1.75rem"
+                     :time-str       (dt/formatted-now)
+                     :time-color     "green"})
+
+(def colors ["cyan" "darkorange" "red" "green" "blue" "black" "brown" "orange"
+             "darkorchid" "chartreuse" "lightblue" "darkpink"])
+
+(defn random-color []
+    (get colors (rand-int (count colors))))
+
+(defn send-updates []
+  (when @ws-client
+    (swap! updates-sent inc)
+    (let [data (merge {:time-str (dt/formatted-now)}
+                      (when (zero? (mod @updates-sent 3))
+                        {:time-color (random-color)}))]
+      (send! @ws-client (pr-str {:message {:command "hey-client/accept-this-update"
+                                           :data    data}})))))
 
 (defn mesg-received [msg]
-  (println "mesg-received: msg: " msg)
   (let [message-map (edn/read-string msg)
         command (get-in message-map [:message :command])
         data (get-in message-map [:message :data])]
-    (println "command: " command)
-    (println "data: " data)
 
     (cond
 
       (= command "hey-server/send-preferences")
-      (send! @ws-client (pr-str {:message {:command "hey-client/accept-these-preferences"
-                                           :data    {:body-margin "2rem"
-                                                     :h4-line-height "1.75rem"
-                                                     :time-str "11:11:11pm"
-                                                     :time-color "green"}}})))))
+      (let [timer (periodic/timer "fwm-example")]
+        (periodic/run-task! send-updates :by timer :period 1000)
+        (send! @ws-client (pr-str {:message {:command "hey-client/accept-these-preferences"
+                                             :data    starting-prefs}}))))))
 
 (defn websocket-handler [req]
   (with-channel req channel

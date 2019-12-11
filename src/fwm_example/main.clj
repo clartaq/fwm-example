@@ -11,15 +11,15 @@
 (defn stop-app!
   "Shut down the application. REPL convenience function."
   []
-  (println "Stopping fwm-example")
+  (println "Stopping fwm-example.")
   (server/stop-server!))
 
 (defn dev-main [& [port]]
-  (println "Starting dev-main")
+  (println "Starting dev-main.")
   (start-app! port))
 
 (defn -main
   "Program entry point."
   [& port]
-  (println "Starting main")
+  (println "Starting main.")
   (start-app! port))

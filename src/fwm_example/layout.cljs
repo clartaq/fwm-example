@@ -3,9 +3,8 @@
 
 (defn home [state]
   (fn [state]
-    (println "home: state: " state)
-    [:div {:style {:margin (:body-margin @state)}} ;"2rem"}}
-     [:h4 {:style {:line-height (:h4-line-height @state)}} ;"1.75rem"}}
+    [:div {:style {:margin (:body-margin @state)}}
+     [:h4 {:style {:line-height (:h4-line-height @state)}}
       "The server says the time is:"
       [:br]
       [:span {:style {:color (:time-color @state)}} (str (:time-str @state))]]

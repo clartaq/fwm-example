@@ -1,10 +1,10 @@
 (ns ^:figwheel-hooks fwm-example.core
   (:require [cljs.core.async :refer [chan close! <! >!]]
+            [clojure.edn :as edn]
             [fwm-example.layout :as layout]
             [fwm-example.ws :refer [start-ws!]]
             [goog.dom :as gdom]
-            [reagent.core :as r :refer [atom]]
-            [clojure.edn :as edn])
+            [reagent.core :as r :refer [atom]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 ;; Just used to demonstrate testing.
@@ -13,6 +13,7 @@
 (println "This text is printed from src/fwm_example/core.cljs. Go ahead and edit it and see reloading in action.")
 
 ;; Define your app data so that it doesn't get over-written on reload.
+;; Some defaults and initial values in out application state.
 (defonce app-state (atom {:time-str   "00:00:00am"
                           :time-color "blue"
                           :update-num 0}))
@@ -27,7 +28,7 @@
 (defn ws-message-handler
   "Handle messages received from the server."
   [e]
-  (let [message-map (edn/read-string (.-data e)) ;(du/event-data e))
+  (let [message-map (edn/read-string (.-data e))
         message-command (get-in message-map [:message :command])
         message-data (get-in message-map [:message :data])]
 
@@ -35,7 +36,6 @@
 
       (= message-command "hey-client/accept-these-preferences")
       (do
-        (println "Client has received the preferences")
         ;; On reload, the initial render function is waiting on the
         ;; preferences before it lays out the page since the layout
         ;; is dependent on items stored in the preferences.
@@ -44,45 +44,28 @@
 
       (= message-command "hey-client/accept-this-update")
       (do
-        (println "Client has received an update")
-        ;(debug "Saw message-command \"hey-client/accept-this-outline\"")
-        ;(debugf "(:outline message-data): %s" (:outline message-data))
-        (swap! app-state merge @app-state message-data) ; :current-outline (:outline message-data))
-       ; (swap! app-state update-in [:update-num] inc)
-       ; (swap! app-state #(update % :update-num inc))
-        (increment-update-num)
-
-        ;(swap! m1 #(-> %
-        ;               (update :counter2 inc)
-                       ;(debugf "@(state-ratom): %s" @(state-ratom)))
-      ))))
+        (swap! app-state merge @app-state message-data)
+        (increment-update-num)))))
 
 (defn on-ws-open
   "Handle the notification that the WebSocket has been opened."
   []
-  (println "on-ws-open: about to send request for preferences")
   ((:send-message-fn @app-state)
    (pr-str {:message {:command "hey-server/send-preferences"
                       :data    ""}})))
 
 (defn reload [el]
-  (println "app-state: " app-state)
   (let [ws-functions (start-ws! {:on-open-fn    on-ws-open
                                  :on-error-fn   nil
                                  :on-message-fn ws-message-handler})]
     (swap! app-state merge ws-functions)
-    (println "ws-functions: " ws-functions)
 
     ;; Wait for the preferences to be obtained from the server since they will
     ;; affect the rendering.
-    (println "About to go for blocking on prefs")
     (go
       (let [prefs (<! got-prefs-channel)]
-        (println "got prefs: " prefs)
         (swap! app-state merge @app-state prefs)
-        ;(swap! app-state assoc :preferences prefs)
         (close! got-prefs-channel)
-        (println "app-state: " app-state)
         (r/render [layout/home app-state] el)))))
 
 (defn mount-app-element []

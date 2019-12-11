@@ -6,8 +6,6 @@
 ;;; Just used to demonstrate testing.
 (defn multiply [a b] (* a b))
 
-(def default-port 3000)
-
 (defonce ^{:private true} web-server_ (atom nil))
 
 (defn stop-server! []
@@ -19,17 +17,21 @@
 (defn start-server! [& [port]]
   (stop-server!)
   (println "Starting web server.")
-  (let [http-port (or port default-port)
+  (let [http-port (or port 3000)
         wrapped-routes all-routes
         [port-used stop-fn] (let [stop-fn (http-kit/run-server
                                             wrapped-routes
-                                            {:port http-port})]
+                                            {:port http-port :join? false})]
                               [(:local-port (meta stop-fn))
                                (fn [] (stop-fn :timeout 100))])
         uri (format "http://localhost:%s/" port-used)]
 
     (println "http-port: " http-port)
     (println "Web server is running at: " uri)
+    (try
+      (.browse (java.awt.Desktop/getDesktop) (java.net.URI. uri))
+      (catch java.awt.HeadlessException _))
+
     (reset! web-server_ stop-fn)))
 
 

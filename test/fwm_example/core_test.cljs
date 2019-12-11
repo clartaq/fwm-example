@@ -1,13 +1,17 @@
 (ns fwm-example.core-test
     (:require
      [cljs.test :refer-macros [deftest is testing]]
-     [fwm-example.core :refer [multiply]]))
+     [fwm-example.core :refer [square]]))
 
-(deftest multiply-test
-  (is (= (* 1 2) (multiply 1 2))))
+(deftest test-for-zero
+  (is (zero? (square 0))))
 
-(deftest multiply-test-2
-  (is (= (* 75 10) (multiply 10 75))))
+(deftest test-for-pos
+  (is (= 1 (square 1)))
+  (is (= 9 (square 3)))
+  (is (not= 37 (square 6))))
 
-(deftest another-multiply-test
-  (is (= 9702 (multiply 99 98))))
+(deftest test-for-neg
+  (is (= 1 (square -1)))
+  (is ( = 16 (square -4)))
+  (is (not= 37 (square 6))))

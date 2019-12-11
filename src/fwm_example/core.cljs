@@ -8,7 +8,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 ;; Just used to demonstrate testing.
-(defn multiply [a b] (* a b))
+(defn square [a] (* a a))
 
 (println "This text is printed from src/fwm_example/core.cljs. Go ahead and edit it and see reloading in action.")
 

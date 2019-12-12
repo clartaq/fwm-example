@@ -14,10 +14,11 @@
     (println "stop-fn: " stop-fn)
     (stop-fn)))
 
-(defn start-server! [& [port]]
+(defn start-server! [& [args]]
   (stop-server!)
-  (println "Starting web server.")
-  (let [http-port (or port 3000)
+  ;; A port number to use is the only valid use of the args, so try to
+  ;; convert the string argument to an integer and use it for the port.
+  (let [http-port (or (Integer. (first args)) 3000)
         wrapped-routes all-routes
         [port-used stop-fn] (let [stop-fn (http-kit/run-server
                                             wrapped-routes

@@ -4,9 +4,9 @@
 
 (defn start-app!
   "Initialize and start the major program components. REPL convenience function."
-  [& [port]]
+  [& [args]]
   (println "Starting fwm-example.")
-  (server/start-server! port))
+  (server/start-server! args))
 
 (defn stop-app!
   "Shut down the application. REPL convenience function."
@@ -14,12 +14,12 @@
   (println "Stopping fwm-example.")
   (server/stop-server!))
 
-(defn dev-main [& [port]]
+(defn dev-main [& [args]]
   (println "Starting dev-main.")
-  (start-app! port))
+  (start-app! args))
 
 (defn -main
   "Program entry point."
-  [& port]
+  [& args]
   (println "Starting main.")
-  (start-app! port))
+  (start-app! args))

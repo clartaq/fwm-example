@@ -2,7 +2,6 @@
   (:require
     [clojure.edn :as edn]
     [clojure.java.io :as io]
-    [clojure.pprint :as pprint]
     [compojure.core :refer [defroutes GET]]
     [compojure.route :refer [not-found]]
     [fwm-example.periodic-tasks :as periodic]
@@ -11,8 +10,9 @@
     [ring.middleware.resource :refer [wrap-resource]]
     [ring.middleware.reload :refer [wrap-reload]]))
 
-(def ws-client (atom nil))
-(def updates-sent (atom 0))
+(defonce ws-client (atom nil))
+(defonce updates-sent (atom 0))
+(def my-timer (atom nil))
 
 (def starting-prefs {:body-margin    "2rem"
                      :h4-line-height "1.75rem"
@@ -20,10 +20,10 @@
                      :time-color     "green"})
 
 (def colors ["cyan" "darkorange" "red" "green" "blue" "black" "brown" "orange"
-             "darkorchid" "chartreuse" "lightblue" "darkpink"])
+             "darkorchid" "chartreuse" "lightblue" "darkpink" "plum" "indigo"])
 
 (defn random-color []
-    (get colors (rand-int (count colors))))
+  (get colors (rand-int (count colors))))
 
 (defn send-updates []
   (when @ws-client
@@ -42,8 +42,9 @@
     (cond
 
       (= command "hey-server/send-preferences")
-      (let [timer (periodic/timer "fwm-example")]
-        (periodic/run-task! send-updates :by timer :period 1000)
+      (do
+        (reset! my-timer (periodic/timer "fwm-example"))
+        (periodic/run-task! send-updates :by @my-timer :period 1000)
         (send! @ws-client (pr-str {:message {:command "hey-client/accept-these-preferences"
                                              :data    starting-prefs}}))))))
 
@@ -52,8 +53,11 @@
                 (reset! ws-client channel)
                 (on-receive channel #'mesg-received)
                 (on-close channel (fn [status]
+                                    (println (str channel ", closed, status" status)
                                     (reset! ws-client nil)
-                                    (println (str channel "closed, status" status))))))
+                                    (when @my-timer
+                                      (periodic/cancel-task! @my-timer)
+                                      (reset! my-timer nil)))))))
 
 (defroutes routes
            (GET "/ws" [] websocket-handler)

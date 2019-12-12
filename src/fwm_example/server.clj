@@ -18,7 +18,11 @@
   (stop-server!)
   ;; A port number to use is the only valid use of the args, so try to
   ;; convert the string argument to an integer and use it for the port.
-  (let [http-port (or (Integer. (first args)) 3000)
+  (let [http-port (or (and args
+                           (first args)
+                           (integer? (first args))
+                           (Integer. (first args)))
+                      3000)
         wrapped-routes all-routes
         [port-used stop-fn] (let [stop-fn (http-kit/run-server
                                             wrapped-routes

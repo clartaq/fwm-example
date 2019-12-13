@@ -1,5 +1,4 @@
-(ns fwm-example.layout
-  (:require [reagent.core :as r]))
+(ns fwm-example.layout)
 
 (defn home [state]
   (fn [state]

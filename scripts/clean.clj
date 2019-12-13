@@ -1,7 +1,4 @@
-(require
-  '[clojure.java.io :as io])
-
-(import '[java.io File])
+(require '[clojure.java.io :as io])
 
 ;; A list of directory names that are to be deleted, including all child
 ;; files and directories. The directory names are relative to the project

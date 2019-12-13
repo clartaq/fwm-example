@@ -13,10 +13,7 @@
 (println "This text is printed from src/fwm_example/core.cljs. Go ahead and edit it and see reloading in action.")
 
 ;; Define your app data so that it doesn't get over-written on reload.
-;; Some defaults and initial values in out application state.
-(defonce app-state (atom {:time-str   "00:00:00am"
-                          :time-color "blue"
-                          :update-num 0}))
+(defonce app-state (atom {:update-num 0}))
 
 ;; A channel used to retrieve the preferences asynchronously when it becomes
 ;; available from the websocket.
@@ -36,7 +33,7 @@
 
       (= message-command "hey-client/accept-these-preferences")
       (do
-        ;; On reload, the initial render function is waiting on the
+        ;; Upon loading the initial render function is waiting on the
         ;; preferences before it lays out the page since the layout
         ;; is dependent on items stored in the preferences.
         (go (>! got-prefs-channel message-data))

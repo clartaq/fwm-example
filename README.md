@@ -1,6 +1,6 @@
 # fwm-example
 
-This is an example project for a client/server app in Clojure and ClojureScript.
+This is an example project for a client/server app in Clojure and ClojureScript using WebSockets.
 
 ## Overview
 
@@ -8,17 +8,19 @@ This project was intended to serve as a learning experience in writing client/se
 
 The project is inspired by both the figwheel-main leiningen template [here](https://github.com/bhauman/figwheel-main-template) and the full-stack example [here](https://github.com/oakes/full-stack-clj-example). It combines aspects of both with additional items that I tend to use in my own projects.
 
-What it produces is a simple client/server using [Reagent](https://reagent-project.github.io) for display in a browser.
+What it produces is a simple client/server using [Reagent](https://reagent-project.github.io) to display in a browser with regular, periodic visual updates.
 
 ## Development
 
 To get an interactive development environment run:
 
-    clojure -A:fig:dev
+    clj -A:fig:repl
 
-This will auto compile and open a browser to `localhost:9500`. Changes made to the ClojureScript portion of the project will be compile and reloaded in real time. Changes affecting the browser display (Reagent components) will show up in the browser as well.
+This will compile a development build, open a tab in the default browser at `localhost:3000`, and start a ClojureScript REPL in the terminal. When compilation and loading are complete, a ClojureScript REPL will open in the terminal and connect to the running program. Changes made to the ClojureScript portion of the project will be compile and reloaded in real time. Changes affecting the browser display (Reagent components) will show up in the browser as well.
 
-The Clojure-based server will also be running and can be viewed by navigating to `localhost:3000`. The two views are usually identical.
+    clj -A:fig:dev
+
+Similar to the above but does not open a REPL.
 
 ## Production Build
 
@@ -28,11 +30,11 @@ To build an uberjar for production use, run:
 
 You can run the resulting jar from the project directory by entering:
 
-    java -jar target/fwm-example-0.1.0-SNAPSHOT-standalone.jar
+    java -jar target/fwm-example.jar
 
-Then open a browser to `localhost:3000` to interact with the running application.
+Launching the uberjar will also open a tab in your default browser.
 
-(The `prod.clj` script includes a tip on how to change the name of the standalone uberjar to something less tedious to type.)
+(The `prod.clj` script, which builds the uberjar, has a setting to generate an uberjar with a name that is easier to type. The setting is marked in the source if you want to change it back to the more traditional `fwm-example-0.1.0-SNAPSHOT-standalone.jar`.)
 
 ## Testing
 
@@ -66,7 +68,19 @@ To check for outdated dependencies, run:
 
     clj -A:ancient
 
-## Running REPLs
+## What it Does
+
+The application itself is quite useless and backward. After loading up and making the WebSocket connection, the client asks the server to send over some "user preference", some of which are used to configure the layout of the page. Once received, the main (only) page is laid out.
+
+(I actually found this a bit tricky when starting out. The request is made by the client and rendering the page is blocked until the preferences are received over the WebSocket from the server.)
+
+Upon being asked to send preferences, the server also starts sending updates at regular, 1 second intervals. These updates consist of grabbing the current time and formatting it into a nice string, then sending it over the socket. Once the client receives the time, it modifies a Reagent atom that triggers a re-render of the page with the updated time.
+
+Sometimes, the server will also include a color to use for displaying the time in an update. When that is received, the client also updates a Reagent atom, triggering a render in the new color.
+
+Finaly, the client increments a counter noting the number of updates it has received and displays the new data (again by updating a Reagent atom used to lay out the page.)
+
+Of course, it's quite silly to send the time from a server, but it is easy and demonstrates that the WebSocket is working and that the Reagent components are updated as expected.
 
 ## License
 

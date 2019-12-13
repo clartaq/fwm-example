@@ -36,6 +36,9 @@
            ;; Start up a development environment.
            :dev       {:main-opts ["scripts/dev.clj"]}
 
+           ;; Start up a development build with a ClojureScript REPL.
+           :repl      {:main-opts ["scripts/repl.clj"]}
+
            ;; Build an uberjar.
            :prod      {:extra-deps {leiningen {:mvn/version "2.9.0"}}
                        :main-opts  ["scripts/prod.clj"]}}}

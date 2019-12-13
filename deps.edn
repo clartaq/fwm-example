@@ -11,7 +11,6 @@
            compojure                  {:mvn/version "1.6.1"}
            http-kit                   {:mvn/version "2.3.0"}
            reagent                    {:mvn/version "0.8.1"}
-           ring/ring-jetty-adapter    {:mvn/version "1.8.0"}
            ring/ring-core             {:mvn/version "1.8.0"}
            ring/ring-devel            {:mvn/version "1.8.0"}}
  :paths   ["src" "resources"]

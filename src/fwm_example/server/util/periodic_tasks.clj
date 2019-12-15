@@ -1,7 +1,7 @@
 ;; Largely stolen from:
 ;; https://github.com/Ruiyun/tools.timer/blob/master/src/ruiyun/tools/timer.clj
 
-(ns fwm-example.server.periodic-tasks
+(ns fwm-example.server.util.periodic-tasks
   (:import (java.util Date Timer TimerTask)))
 
 (defn timer

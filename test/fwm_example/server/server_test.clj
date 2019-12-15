@@ -1,6 +1,6 @@
-(ns fwm-example.server-test
+(ns fwm-example.server.server-test
   (:require [clojure.test :refer :all]
-            [fwm-example.server :refer [multiply]]))
+            [fwm-example.server.server :refer [multiply]]))
 
 (deftest multiply-test
   (testing "The multiply function"

@@ -1,8 +1,8 @@
 ;; This test runner is intended to be run from the command line
-(ns fwm-example.test-runner
+(ns fwm-example.client.test-runner
   (:require
     ;; require all the namespaces that you want to test
-    [fwm-example.core-test]
+    [fwm-example.client.core-test]
     [figwheel.main.testing :refer [run-tests-async]]))
 
 (defn -main [& args]

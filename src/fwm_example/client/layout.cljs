@@ -1,4 +1,4 @@
-(ns fwm-example.layout)
+(ns fwm-example.client.layout)
 
 (defn home [state]
   (fn [state]

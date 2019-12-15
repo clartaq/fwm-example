@@ -1,11 +1,11 @@
-(ns fwm-example.handler
+(ns fwm-example.server.handler
   (:require
     [clojure.edn :as edn]
     [clojure.java.io :as io]
     [compojure.core :refer [defroutes GET]]
     [compojure.route :refer [not-found]]
-    [fwm-example.periodic-tasks :as periodic]
-    [fwm-example.date-time :as dt]
+    [fwm-example.server.periodic-tasks :as periodic]
+    [fwm-example.server.date-time :as dt]
     [org.httpkit.server :refer [on-receive on-close send! with-channel]]
     [ring.middleware.resource :refer [wrap-resource]]
     [ring.middleware.reload :refer [wrap-reload]]))

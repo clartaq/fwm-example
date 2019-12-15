@@ -1,7 +1,7 @@
-(ns fwm-example.core-test
+(ns fwm-example.client.core-test
     (:require
      [cljs.test :refer-macros [deftest is testing]]
-     [fwm-example.core :refer [square]]))
+     [fwm-example.client.core :refer [square]]))
 
 (deftest test-for-zero
   (is (zero? (square 0))))

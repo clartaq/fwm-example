@@ -1,8 +1,8 @@
-(ns ^:figwheel-hooks fwm-example.core
+(ns ^:figwheel-hooks fwm-example.client.core
   (:require [cljs.core.async :refer [chan close! <! >!]]
             [clojure.edn :as edn]
-            [fwm-example.layout :as layout]
-            [fwm-example.ws :refer [start-ws!]]
+            [fwm-example.client.layout :as layout]
+            [fwm-example.client.ws :refer [start-ws!]]
             [goog.dom :as gdom]
             [reagent.core :as r :refer [atom]])
   (:require-macros [cljs.core.async.macros :refer [go]]))

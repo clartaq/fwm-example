@@ -1,5 +1,5 @@
-(ns fwm-example.main
-  (:require [fwm-example.server :as server])
+(ns fwm-example.server.main
+  (:require [fwm-example.server.server :as server])
   (:gen-class))
 
 (defn start-app!

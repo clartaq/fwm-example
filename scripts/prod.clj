@@ -66,7 +66,7 @@
 
 (println "Building" out-file)
 (delete-children-recursively! (io/file out-dir))
-(api/build "src" {:main          'fwm-example.core
+(api/build "src" {:main          'fwm-example.client.core
                   :optimizations :advanced
                   :output-to     out-file
                   :output-dir    out-dir})

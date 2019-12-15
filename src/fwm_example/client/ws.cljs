@@ -1,4 +1,4 @@
-(ns fwm-example.ws
+(ns fwm-example.client.ws
 
   "Functions to handle WebSocket connections.
 

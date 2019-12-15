@@ -1,6 +1,6 @@
-(ns fwm-example.server
+(ns fwm-example.server.server
   (:gen-class)
-  (:require [fwm-example.handler :refer [all-routes]]
+  (:require [fwm-example.server.handler :refer [all-routes]]
             [org.httpkit.server :as http-kit]))
 
 ;;; Just used to demonstrate testing.

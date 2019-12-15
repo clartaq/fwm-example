@@ -28,7 +28,8 @@
                        :main-opts   ["-m" "kaocha.runner"]}
 
            ;; ClojureScript unit testing.
-           :test-cljs {:main-opts ["-m" "figwheel.main" "-co" "test.cljs.edn" "-m" "fwm-example.test-runner"]}
+           :test-cljs {:main-opts ["-m" "figwheel.main" "-co" "test.cljs.edn"
+                                   "-m" "fwm-example.client.test-runner"]}
 
            ;; Clean (erase) all of the output artifacts.
            :clean     {:main-opts ["scripts/clean.clj"]}

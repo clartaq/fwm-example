@@ -1,4 +1,4 @@
-(ns fwm-example.main-test
+(ns fwm-example.server.main-test
   (:require [clojure.test :refer :all]))
 
 (deftest a-test

@@ -1,6 +1,6 @@
 # fwm-example
 
-This is an example project for a client/server app in Clojure and ClojureScript using WebSockets.
+This is an example project for a client/server app in Clojure and ClojureScript using WebSockets and Reagent.
 
 ## Overview
 
@@ -8,15 +8,17 @@ This project was intended to serve as a learning experience in writing client/se
 
 The project is inspired by both the figwheel-main leiningen template [here](https://github.com/bhauman/figwheel-main-template) and the full-stack example [here](https://github.com/oakes/full-stack-clj-example). It combines aspects of both with additional items that I tend to use in my own projects.
 
-What it produces is a simple client/server using [Reagent](https://reagent-project.github.io) to display the current time in a browser with regular, periodic visual updates.
+What it produces is a simple client/server using [Reagent](https://reagent-project.github.io) to display the current time in a browser with regular, periodic visual updates. It's a foolish but educational example.
 
 ## Development Builds
 
-To get an interactive development environment run:
+Of course, you need Java and Clojure to get started. I used Java 9 and Clojure 1.10.1.
+
+From a terminal window in the project directory, get an interactive development environment by running:
 
     clj -A:fig:repl
 
-This will compile a development build, open a tab in the default browser at `localhost:3000`, and start a ClojureScript REPL in the terminal. Changes made to the ClojureScript portion of the project will be compile and reloaded in real time. Changes affecting the browser display (Reagent components) will show up in the browser as well.
+This will compile a development build, open a tab in the default browser at [`localhost:3000`](http://localhost:3000), and start a ClojureScript REPL in the terminal. Changes made to the ClojureScript portion of the project will be compiled and reloaded in real time. Changes affecting the browser display (Reagent components) will show up in the browser as well.
 
     clj -A:fig:dev
 
@@ -42,7 +44,7 @@ Testing scripts are provided for both Clojure and ClojureScript unit testing.
 
 ### ClojureScript
 
-After starting a development session, figwheel.main does automatic testing as well. Navigate your browser to `localhost:9500/figwheel-extra-main/autotesting` to see the test results.
+After starting a development session, figwheel.main does automatic testing as well. Navigate your browser to [`http://localhost:9500/figwheel-extra-main/autotesting`](http://localhost:9500/figwheel-extra-main/auto-testing) to see the test results.
 
 To do one-time ClojureScript testing, run:
 

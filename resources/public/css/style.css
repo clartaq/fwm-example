@@ -1,91 +1,95 @@
-/* Add a little style. */
-
-* {
-    padding: 0;
-    margin: 0;
-    font-size: 1em;
-}
-
-html, body {
-    overflow: hidden;
-    box-sizing: border-box;
-    height: 100%;
-}
-
 :root {
-    /* Some colors. */
     --heading-background-color: transparent;
     --heading-color: #575757;
-    --body-background-color: #fcfcfc;
     --body-text-color: #111111;
     --rule-color: #ccc;
 
-    /* Fonts families. */
     --headline-font-family: "Century Gothic", Muli, "Segoe UI", Arial, sans-serif;
     --body-font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
-    --fixed-font-family: Consolas, "Ubuntu Mono", Menlo, Monaco, "Lucida Console",
-    "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono",
-    "Courier New", monospace;
 }
 
-/* Some typography */
+/*
+** These settings for the html and body elements work best for me and the
+** types of projects that I usually set up -- flexbox-based layouts with
+** header, sticky footer, and main content (not used here).
+ */
+html {
+    padding: 14px;
+}
+
+html, body {
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    color: var(--body-text-color);
+    font-family: var(--body-font-family);
+    font-weight: normal;
+    height: 100%;
+    line-height: 1.5rem;
+    padding: 0.15rem;
+}
+
 h1, h2, h3, h4, h5, h6 {
-    margin-top: 1.25rem;
-    margin-bottom: 0.8rem;
     background-color: var(--heading-background-color);
     color: var(--heading-color);
     font-family: var(--headline-font-family);
     line-height: 1.3rem;
+    margin-bottom: 0.8rem;
+    margin-top: 1.25rem;
 }
 
 h1 {
-    padding-bottom: 0.4rem;
     font-size: 2.2rem;
     line-height: 2.5rem;
+    padding-bottom: 0.4rem;
 }
 
 h2 {
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
     border-bottom: var(--rule-color);
-    margin-top: 2.5rem;
     font-size: 1.728rem;
     line-height: 2rem;
+    margin-top: 2.5rem;
+    padding-bottom: 0.3rem;
+    padding-top: 0.3rem;
 }
 
 h3 {
-    margin-top: 2.5rem;
     font-size: 1.44rem;
     line-height: 1.6rem;
+    margin-top: 2.5rem;
 }
 
 h4 {
-    margin-top: 2.5rem;
     font-size: 1.2rem;
+    margin-top: 2.5rem;
 }
 
 h5 {
-    margin-top: 2.5rem;
     color: black;
     font-size: 0.875rem;
+    margin-top: 2.5rem;
 }
 
 h6 {
-    margin-top: 2.5rem;
     font-size: 0.85rem;
+    margin-top: 2.5rem;
 }
 
 small {
     font-size: 0.833rem;
 }
 
-body {
-    padding: 0.15rem;
-    margin: 0;
-    background-color: var(--body-background-color);
-    color: var(--body-text-color);
-    font-family: var(--body-font-family);
-    font-size: 1rem;
-    font-weight: normal;
-    line-height: 1.5rem;
+/*
+** If ClojureScript is inserting its app here, and the layout has flexbox
+** elements that are expected to occupy remaining height (think header,
+** main, footer where the main div pushes the footer to the bottom of the
+** page), you need to make sure the div maintains the chain of 100% height
+** elements.
+ */
+.app-div {
+    height: 100%;
 }

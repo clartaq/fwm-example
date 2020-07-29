@@ -2,6 +2,14 @@
 
 Some project details that you might find interesting are included here.
 
+## Why use EDN as the Storage Format?
+
+It's the same reason people use Node.js on the server. EDN is the same language as is used to write the client and server. Granted it is a little more restricted, but it is basically the same.
+- It is easy for humans to read.
+- It is extensible and handles more data types than JSON.
+- It is builtin. No need to load some fancy parser to build the program.
+- Mostly though, it is easy for me to read.
+
 ## WebSockets
 
 My programming career goes back decades. But it was almost all embedded or desktop-based. As such, moving to web-based applications was all new to me -- very exciting. But I never used [AJAX](https://en.wikipedia.org/wiki/Ajax_%28programming%29) and found it confusing and convoluted, at least in appearance.
@@ -11,6 +19,8 @@ By comparison, [WebSockets](https://en.wikipedia.org/wiki/WebSocket) seem very e
 ## Leiningen
 
 The project does not use [Leiningen](https://leiningen.org) to specify and control the build. But it does use Leiningen to create the uberjar. As such, Leningen is specified as a depenedency for the "prod" script to create the uberjar. That is also the reason for the `project.clj` file in the source directory. Leiningen needs the `project.clj` file to run.
+
+The Leiningen project file also contains the version number for the project.
 
 ## The CSS
 

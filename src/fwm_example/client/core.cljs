@@ -4,7 +4,8 @@
             [fwm-example.client.layout :as layout]
             [fwm-example.client.ws :refer [start-ws!]]
             [goog.dom :as gdom]
-            [reagent.core :as r :refer [atom]])
+            [reagent.core :as r :refer [atom]]
+            [reagent.dom :as rdom])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 ;; Just used to demonstrate testing.
@@ -13,7 +14,7 @@
 (println "This text is printed from src/fwm_example/core.cljs. Go ahead and edit it and see reloading in action.")
 
 ;; Define your app data so that it doesn't get over-written on reload.
-(defonce app-state (atom {:update-num 0}))
+(defonce app-state (r/atom {:update-num 0}))
 
 ;; A channel used to retrieve the preferences asynchronously when it becomes
 ;; available from the websocket.
@@ -63,7 +64,7 @@
       (let [prefs (<! got-prefs-channel)]
         (swap! app-state merge @app-state prefs)
         (close! got-prefs-channel)
-        (r/render [layout/home app-state] el)))))
+        (rdom/render [layout/home app-state] el)))))
 
 (defn mount-app-element []
   (when-let [el (gdom/getElement "app")]

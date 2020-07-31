@@ -6,7 +6,7 @@
     [compojure.route :refer [not-found]]
     [fwm-example.server.util.periodic-tasks :as periodic]
     [fwm-example.server.util.date-time :as dt]
-    [org.httpkit.server :refer [on-receive on-close send! with-channel]]
+    [org.httpkit.server :refer [as-channel on-receive on-close send!]]
     [ring.middleware.resource :refer [wrap-resource]]
     [ring.middleware.reload :refer [wrap-reload]]))
 
@@ -37,7 +37,8 @@
 (defn mesg-received [msg]
   (let [message-map (edn/read-string msg)
         command (get-in message-map [:message :command])
-        data (get-in message-map [:message :data])]
+        ;; If you want the data from a message, this is how you get it:
+        _ (get-in message-map [:message :data])]
 
     (cond
 
@@ -48,16 +49,18 @@
         (send! @ws-client (pr-str {:message {:command "hey-client/accept-these-preferences"
                                              :data    starting-prefs}}))))))
 
-(defn websocket-handler [req]
-  (with-channel req channel
-                (reset! ws-client channel)
-                (on-receive channel #'mesg-received)
-                (on-close channel (fn [status]
-                                    (println (str channel ", closed, status" status)
-                                    (reset! ws-client nil)
-                                    (when @my-timer
-                                      (periodic/cancel-task! @my-timer)
-                                      (reset! my-timer nil)))))))
+(defn websocket-handler [ring-req]
+  (when (:websocket? ring-req)
+    (as-channel ring-req
+                {:on-open    (fn [ch] (println "\"on-open:\"" ch)
+                               (reset! ws-client ch))
+                 :on-receive (fn [_ message] (mesg-received message))
+                 :on-close   (fn [ch status]
+                               (println (str ch ", closed, status" status)
+                                        (reset! ws-client nil)
+                                        (when @my-timer
+                                          (periodic/cancel-task! @my-timer)
+                                          (reset! my-timer nil))))})))
 
 (defroutes routes
            (GET "/ws" [] websocket-handler)
